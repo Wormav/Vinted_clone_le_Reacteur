@@ -4,3 +4,6 @@
 
 # Fichiers de configuration d'environnement
 .env
+
+# Node.js
+node_modules/
