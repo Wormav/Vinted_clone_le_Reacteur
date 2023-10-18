@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const db = mongoose
-  .connect("mongodb://localhost:27017/vinted")
+  .connect(process.env.DB_URL)
   .then(() => {
     console.log("Connexion établie avec la DB");
   })
