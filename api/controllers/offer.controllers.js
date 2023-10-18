@@ -31,25 +31,25 @@ const publishOffer = async (req, res) => {
     const checkMaxCharDescription = maxCharDescription(description);
 
     if (!checkMaxCharDescription)
-      return res
-        .status(400)
-        .json({ message: "Description must be less than 500 characters" });
+      return res.status(400).json({
+        message: "La description ne doit pas dépasser 500 caractères",
+      });
 
     // Check price
     const checkMaxPrice = maxPrice(price);
 
     if (!checkMaxPrice)
-      return res
-        .status(400)
-        .json({ message: "Price must be less than 100000" });
+      return res.status(400).json({
+        message: "Le prix ne doit pas dépasser 100000 euros",
+      });
 
     // Check title length
     const maxTitle = maxCharTitle(title);
 
     if (!maxTitle)
-      return res
-        .status(400)
-        .json({ message: "Title must be less than 50 characters" });
+      return res.status(400).json({
+        message: "Le titre ne doit pas dépasser 50 caractères",
+      });
 
     // Create new offer
     const newOffer = new Offer({
@@ -110,10 +110,13 @@ const updateOffer = async (req, res) => {
 
     let offer = await Offer.findById(id);
 
-    if (!offer) return res.status(400).json({ message: "Offer not found" });
+    if (!offer)
+      return res.status(400).json({ message: "Annonce non trouvé !" });
 
     if (offer.owner._id.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({
+        message: "Vous n'avez pas le droit de modifier cette annonce !",
+      });
     }
 
     const {
@@ -132,25 +135,25 @@ const updateOffer = async (req, res) => {
     const checkMaxCharDescription = maxCharDescription(description);
 
     if (!checkMaxCharDescription)
-      return res
-        .status(400)
-        .json({ message: "Description must be less than 500 characters" });
+      return res.status(400).json({
+        message: "La description ne doit pas dépasser 500 caractères",
+      });
 
     // Check price
     const checkMaxPrice = maxPrice(price);
 
     if (!checkMaxPrice)
-      return res
-        .status(400)
-        .json({ message: "Price must be less than 100000" });
+      return res.status(400).json({
+        message: "Le prix ne doit pas dépasser 100000 euros",
+      });
 
     // Check title length
     const maxTitle = maxCharTitle(title);
 
     if (!maxTitle)
-      return res
-        .status(400)
-        .json({ message: "Title must be less than 50 characters" });
+      return res.status(400).json({
+        message: "Le titre ne doit pas dépasser 50 caractères",
+      });
 
     // Check if user is authorized to update offer
     const updateFields = {
@@ -193,7 +196,7 @@ const updateOffer = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ message: "Offer updated", offer });
+    res.status(200).json({ message: "Annonce modifié", offer });
   } catch (err) {
     // Send error response
     res
@@ -215,11 +218,13 @@ const deleteOffer = async (req, res) => {
 
     // Check if offer exists
     if (!offer) {
-      return res.status(404).json({ message: "Offer not found" });
+      return res.status(404).json({ message: "Annonce non trouvé" });
     }
 
     if (offer.owner._id.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({
+        message: "Vous êtes pas autorisé à supprimer cette annonce !",
+      });
     }
 
     // Delete the Cloudinary folder
@@ -231,11 +236,13 @@ const deleteOffer = async (req, res) => {
     const deleted = await Offer.deleteOne({ _id: id });
 
     if (!deleted)
-      return res.status(400).json({ message: "Error while deleting offer" });
+      return res.status(400).json({ message: "Une erreur est survenue" });
 
-    res.status(200).json({ message: "Offer successfully deleted" });
+    res.status(200).json({ message: "Annonce supprimé" });
   } catch (err) {
-    res.status(500).json({ message: "An error occurred", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Une erreur est survenue", error: err.message });
   }
 };
 

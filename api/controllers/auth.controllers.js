@@ -70,7 +70,10 @@ const login = async (req, res) => {
     // Check if user exists
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ message: "Cet email n'a pas était trouvé !" });
 
     // Check if password is correct
     const hashToCompare = SHA256(password + user.salt).toString(encBase64);
@@ -82,7 +85,7 @@ const login = async (req, res) => {
       });
     } else {
       // Send error response
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Mots de passe invalide !" });
     }
   } catch (err) {
     // Send error response
