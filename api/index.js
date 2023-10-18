@@ -1,17 +1,19 @@
 const express = require("express");
+require("dotenv").config();
 require("./database"); // Connect to database
-const bodyParser = require("body-parser");
+require("./config/cloudinary.config"); // Cloudinary config
 const userRouter = require("./routes/user.routes");
+const offerRouter = require("./routes/offer.routes");
 
 // Create server
 const app = express();
 
-// Use body parser for JSON
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// Use express for JSON
+app.use(express.json());
 
 // Routes
 app.use("/user", userRouter);
+app.use("/offer", offerRouter);
 
 // Start server
 app.listen(3000, () => {

@@ -1,10 +1,11 @@
 const { Router } = require("express");
+const fileUpload = require("express-fileupload");
 const { signup, login } = require("../controllers/auth.controllers");
 
 const userRouter = Router();
 
 // Signup
-userRouter.post("/signup", (req, res) => {
+userRouter.post("/signup", fileUpload(), (req, res) => {
   signup(req, res);
 });
 

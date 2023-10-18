@@ -2,14 +2,16 @@ const User = require("../models/User.model");
 const uid2 = require("uid2");
 const { SHA256 } = require("crypto-js");
 const encBase64 = require("crypto-js/enc-base64");
+const cloudinary = require("../config/cloudinary.config");
+const convertToBase64 = require("../utils/convertToBase64");
 
 const signup = async (req, res) => {
   try {
     const { email, username, password, newsletter } = req.body;
 
     // Check if all parameters are provided
-    if (!email || !username || !password || !newsletter) {
-      res.status(400).json({ message: "Missing parameters" });
+    if (!email || !username || !password || newsletter === undefined) {
+      return res.status(400).json({ message: "Missing parameters" });
     }
 
     // Check if email already exists
@@ -31,6 +33,15 @@ const signup = async (req, res) => {
       salt,
     });
 
+    // Handle avatar upload
+    if (req.files && req.files.avatar) {
+      const pictureToUpload = req.files.avatar; // <-- Ici
+      const base64Avatar = convertToBase64(pictureToUpload);
+      const result = await cloudinary.uploader.upload(base64Avatar, {
+        folder: `vinted/users/${email}`,
+      });
+      newUser.account.avatar = result;
+    }
     await newUser.save();
 
     // Send response
@@ -41,7 +52,9 @@ const signup = async (req, res) => {
     });
   } catch (err) {
     // Send error response
-    res.status(500).json({ message: "Une erreur est survenue", err });
+    res
+      .status(500)
+      .json({ message: "Une erreur est survenue", err: err.message });
   }
 };
 
