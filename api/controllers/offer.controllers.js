@@ -246,4 +246,91 @@ const deleteOffer = async (req, res) => {
   }
 };
 
-module.exports = { publishOffer, updateOffer, deleteOffer };
+const getOffers = async (req, res) => {
+  try {
+    // Get parameters
+    let filters = {};
+    const { title, priceMin, priceMax, sort, page } = req.query;
+    const limit = 5;
+
+    // Check if title, priceMin, priceMax are provided
+    if (title) filters.product_name = new RegExp(title, "i");
+
+    if (priceMin) {
+      if (!filters.product_price) filters.product_price = {};
+      filters.product_price.$gte = Number(priceMin);
+    }
+
+    if (priceMax) {
+      if (!filters.product_price) filters.product_price = {};
+      filters.product_price.$lte = Number(priceMax);
+    }
+
+    // Check if sort is provided
+    let sortQuery = {};
+    if (sort === "price-desc") {
+      sortQuery = { product_price: -1 };
+    } else if (sort === "price-asc") {
+      sortQuery = { product_price: 1 };
+    }
+
+    // Check if page is provided
+    const pageQuery = Number(page) || 1;
+
+    // Get offers
+    const offers = await Offer.find(filters)
+      .sort(sortQuery)
+      .skip((pageQuery - 1) * limit)
+      .limit(limit)
+      .populate({
+        path: "owner",
+        select: "_id account avatar",
+      });
+
+    // Get offers count
+    const count = await Offer.countDocuments(filters);
+
+    // Send response
+    res.status(200).json({ count, offers });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Une erreur est survenue", error: err.message });
+  }
+};
+
+const getOfferDetails = async (req, res) => {
+  try {
+    // Get offer id
+    const { id } = req.params;
+
+    // Check if offer id is provided
+    if (!id) return res.status(400).json({ message: "Missing offer id" });
+
+    // Get offer
+    const offer = await Offer.findById(id).populate({
+      path: "owner",
+      select: "_id account avatar",
+    });
+
+    // Check if offer exists
+    if (!offer) {
+      return res.status(404).json({ message: "Annonce non trouvé" });
+    }
+
+    // Send response
+    res.status(200).json({ offer });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Une erreur est survenue", error: err.message });
+  }
+};
+
+module.exports = {
+  publishOffer,
+  updateOffer,
+  deleteOffer,
+  getOffers,
+  getOfferDetails,
+};
