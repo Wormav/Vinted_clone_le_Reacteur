@@ -67,7 +67,7 @@ npm run dev
 - `/offer/publish` : création d'une nouvelle annonce
 - `/offer/update/:id`: modifie une annonce
 - `/offer/remove/:id`: supprime une annonce
-- `/offers/:id` : récupération des détails d'une annonce spécifique
+- `/offer/:id` : récupération des détails d'une annonce spécifique
 - `/offers` : récupération d'une liste d'annonces selon les critères fournis
 
 ## 🚀 À propos du bootcamp Le Réacteur
