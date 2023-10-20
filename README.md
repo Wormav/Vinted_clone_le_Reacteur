@@ -33,19 +33,13 @@ Ce projet est une réalisation dans le cadre du bootcamp de développement web d
 git clone https://github.com/Wormav/Vinted_clone_le_Reacteur.git
 ```
 
-2. Se déplacer dans le dossier api :
-
-```bash
-cd api
-```
-
-3. Installer les dépendances :
+2. Installer les dépendances :
 
 ```bash
 npm install
 ```
 
-4. Créer un fichier `.env` à la racine du dosser `api` avec les variables d'environnement nécessaires :
+3. Créer un fichier `.env` à la racine du dosser `api` avec les variables d'environnement nécessaires :
 
 ```
 DB_URL=your_mongo_db_uri
@@ -54,10 +48,10 @@ CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-5. Lancer le serveur :
+4. Lancer le serveur :
 
 ```bash
-npm run dev
+npm start
 ```
 
 ## 📌 Routes disponibles
