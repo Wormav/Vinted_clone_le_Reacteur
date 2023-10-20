@@ -20,8 +20,8 @@ app.use("/user", userRouter);
 app.use("/offer", offerRouter);
 
 // Start server
-app.listen(3000, () => {
-  console.log("listen server in port 3000");
+app.listen(process.env.PORT, () => {
+  console.log(`listen server in port ${process.env.PORT}}`);
 });
 
 app.listen();
