@@ -19,6 +19,10 @@ app.use(cors());
 app.use("/user", userRouter);
 app.use("/offer", offerRouter);
 
+app.use('*', (req, res) => { 
+  res.status(404).json({ message: 'Page not found' }); 
+})
+
 // Start server
 app.listen(process.env.PORT, () => {
   console.log(`listen server in port ${process.env.PORT}}`);
