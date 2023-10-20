@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-// require("./database"); // Connect to database
+require("./database"); // Connect to database
 require("./config/cloudinary.config"); // Cloudinary config
 const userRouter = require("./routes/user.routes");
 const offerRouter = require("./routes/offer.routes");
