@@ -19,6 +19,7 @@ app.use(cors());
 app.use("/user", userRouter);
 app.use("/offer", offerRouter);
 
+// Error 404
 app.use('*', (req, res) => { 
   res.status(404).json({ message: 'Page not found' }); 
 })
