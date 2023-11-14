@@ -1,5 +1,11 @@
 # Vinted clone projet le Reacteur 🚀
 
+![](https://img.shields.io/badge/Backend-Node.js-green)
+![](https://img.shields.io/badge/Package-Express-orange)
+![](https://img.shields.io/badge/Package-Mongoose-orange)
+![](https://img.shields.io/badge/Package-Cors-orange)
+![](https://img.shields.io/badge/Database-Mongodb-white)
+
 Ce projet est une réalisation dans le cadre du bootcamp de développement web de [Le Réacteur](https://www.lereacteur.io/). Il s'agit d'un clone du backend du site [Vinted](https://www.vinted.fr/), permettant de gérer des annonces.
 
 ## Sommaire
