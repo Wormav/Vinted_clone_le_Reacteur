@@ -2,10 +2,10 @@ const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 
 const pay = async (req, res) => {
   try {
-    const { stripeToken, amout, title } = req.body;
+    const { stripeToken, amount, title } = req.body;
 
     const response = await stripe.charges.create({
-      amout: amout * 100,
+      amount: amount * 100,
       currency: "eur",
       description: title,
       source: stripeToken,
